@@ -22,9 +22,9 @@ export const AppRoutes = () => {
         icon: 'home',
       },
       {
-        label: 'Cidades',
-        path: 'cidades',
-        icon: 'location_city',
+        label: 'Clientes',
+        path: 'pessoas',
+        icon: 'person',
       },
       {
         label: 'Empreendimentos',
@@ -32,19 +32,16 @@ export const AppRoutes = () => {
         icon: 'real_estate_agent',
       },
       {
-        label: 'Pessoas',
-        path: 'pessoas',
-        icon: 'person',
+        label: 'Cidades',
+        path: 'cidades',
+        icon: 'location_city',
       },
     ]);
   }, []);
 
   return (
     <Routes>
-      <Route
-        path="/pagina-inicial"
-        element={<Dashboard>Página inicial</Dashboard>}
-      />
+      <Route path="/pagina-inicial" element={<Dashboard />} />
       <Route path="/cidades" element={<ListagemDeCidade />} />
       <Route path="/cidades/detalhe/:id" element={<DetalheDeCidades />} />
 

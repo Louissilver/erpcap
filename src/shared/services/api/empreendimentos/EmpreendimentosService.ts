@@ -1,13 +1,13 @@
 import { Environment } from '../../../environment';
 import { Api } from '../axios.config';
 
-// export interface IImagemProps {
-//   imagem: string;
-//   alt: string;
-// }
+export interface IImagemProps {
+  imagem: string;
+  alt: string;
+}
 
 export interface IListagemEmpreendimento {
-  id: number;
+  id: string;
   titulo: string;
   to: string;
   descricao: string;
@@ -15,11 +15,11 @@ export interface IListagemEmpreendimento {
   thumb: string;
   alt: string;
   texto: string;
-  //imagens: IImagemProps[];
+  imagens: IImagemProps[];
 }
 
 export interface IDetalheEmpreendimento {
-  id: number;
+  id: string;
   titulo: string;
   to: string;
   descricao: string;
@@ -27,7 +27,7 @@ export interface IDetalheEmpreendimento {
   thumb: string;
   alt: string;
   texto: string;
-  //imagens: IImagemProps[];
+  imagens?: IImagemProps[] | undefined;
 }
 
 type TEmpreendimentosComTotalCount = {
@@ -60,7 +60,7 @@ const getAll = async (
   }
 };
 
-const getById = async (id: number): Promise<IDetalheEmpreendimento | Error> => {
+const getById = async (id: string): Promise<IDetalheEmpreendimento | Error> => {
   try {
     const { data } = await Api.get(`/empreendimentos/${id}`);
 
@@ -78,7 +78,7 @@ const getById = async (id: number): Promise<IDetalheEmpreendimento | Error> => {
 
 const create = async (
   dados: Omit<IDetalheEmpreendimento, 'id'>
-): Promise<number | Error> => {
+): Promise<string | Error> => {
   try {
     const { data } = await Api.post<IDetalheEmpreendimento>(
       '/empreendimentos',
@@ -98,7 +98,7 @@ const create = async (
 };
 
 const updateById = async (
-  id: number,
+  id: string,
   dados: IDetalheEmpreendimento
 ): Promise<unknown> => {
   try {
@@ -111,7 +111,7 @@ const updateById = async (
   }
 };
 
-const deleteById = async (id: number): Promise<void | Error> => {
+const deleteById = async (id: string): Promise<void | Error> => {
   try {
     await Api.delete<IDetalheEmpreendimento>(`/empreendimentos/${id}`);
   } catch (error) {

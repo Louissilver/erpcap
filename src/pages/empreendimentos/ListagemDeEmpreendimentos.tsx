@@ -49,7 +49,6 @@ export const ListagemDeEmpreendimento: React.FC = () => {
           alert(result.message);
           return;
         } else {
-          console.log(result);
           setTotalCount(result.totalCount);
           setRows(result.data);
         }
@@ -57,7 +56,7 @@ export const ListagemDeEmpreendimento: React.FC = () => {
     });
   }, [busca, pagina]);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (confirm('Tem certeza de que quer excluir esse registro?')) {
       EmpreendimentosService.deleteById(id).then((result) => {
         if (result instanceof Error) {
@@ -79,8 +78,8 @@ export const ListagemDeEmpreendimento: React.FC = () => {
         <FerramentasDaListagem
           mostrarInputBusca
           textoDaBusca={busca}
-          textoBotaoNovo="Nova"
-          aoClicarBotaoNovo={() => navigate('/empreendimentos/detalhe/nova')}
+          textoBotaoNovo="Novo"
+          aoClicarBotaoNovo={() => navigate('/empreendimentos/detalhe/novo')}
           aoMudarTextoDeBusca={(texto) =>
             setSearchParams({ busca: texto, pagina: '1' }, { replace: true })
           }

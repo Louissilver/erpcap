@@ -1,27 +1,22 @@
 {
   "clientes": [
     {
-      "id": "12",
-      "aceiteDosTermos": true,
-      "contatoRealizado": true,
-      "dataCriacao": "2022-05-31T22:56:40.837Z",
-      "cidadeInteresse": "Novo Hamburgo",
-      "telefone": "(51) 9 9888-2555",
-      "nomeCompleto": "Carlos Afonso de Almeida Júnior"
-    },
-    {
-      "id": "eYyLlQY",
       "nomeCompleto": "Luís Fernando da Silveira",
       "telefone": "(51) 9 8493-5515",
-      "cidadeInteresse": "Ivoti",
-      "contatoRealizado": true
+      "cidadeInteresse": "Novo Hamburgo",
+      "id": 1
     },
     {
-      "id": "KpJkfX7",
-      "nomeCompleto": "Kêmilly",
-      "telefone": "(98) 8 8995-9996",
+      "nomeCompleto": "Araucaria da Silva",
+      "telefone": "(51) 2 3232-3233",
       "cidadeInteresse": "Sapucaia do Sul",
-      "contatoRealizado": true
+      "id": 2
+    },
+    {
+      "nomeCompleto": "Jessilane Roza",
+      "telefone": "(44) 4 1231-2312",
+      "cidadeInteresse": "Sapucaia do Sul",
+      "id": 3
     }
   ],
   "cidades": [
@@ -68,9 +63,9 @@
   ],
   "empreendimentos": [
     {
-      "id": 1,
-      "to": "ibiza",
+      "id": "1",
       "titulo": "RESIDENCIAL IBIZA",
+      "to": "ibiza",
       "descricao": "Conheça o Ibiza e viva um olhar para o futuro!",
       "cidade": "Novo Hamburgo",
       "thumb": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/002_IB_Fachadas_Noturna_004_HR-1-2048x1365.jpg",
@@ -78,36 +73,36 @@
       "texto": "<b>SOBRE O RESIDENCIAL IBIZA</b> </br> </br> A mudança que você quer ver no mundo, começa pela escolha do seu lar. \nConheça o Ibiza, o primeiro empreendimento Casa Verde e Amarela com Certificação de Construção Sustentável da Região Sul. \nViva um olhar para o futuro entre os churrascos na sacada e os mergulhos na piscina. Mais que um apartamento, um novo jeito de ressignificar a sua vida.</br></br>\n<b> FICHA TÉCNICA </b>  </br>\n<b>Áreas de Uso Comum:</b> Portaria, Salão de festas com churrasqueira, Espaço Pet, Playground, Piscinas adulto e infantil, Bicicletário;</br>\n<b>Total de Unidades:</b> 27 apartamentos de 1 dormitório e 216 apartamentos de 2 dormitórios;</br>\n<b>Total de vagas de estacionamento:</b> 72 vagas de estacionamento cobertas e 171 vagas de estacionamento descobertas;</br>\n<b>Área real privativa dos apartamentos:</b> 44,53 m² no 1 dormitório. No 2 dormitórios, temos opções de planta com 51,13 m² e 56,48 m²;</br>\nPrazo de obra: 36 meses a partir do desembolso da Caixa Econômica Federal. Incorporação Registrada sob nº R1 – 131.102; </br>\n<b>Localização:</b> Rua Projetada Continuação da Henri Dunant, nº801 – Bairro Operário - Novo Hamburgo. </br></br>\n\n<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3466.5222378551657!2d-51.135444583943524!3d-29.67563522118257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951943a1efafef2d%3A0x76d23431ac816a58!2sR.%20Henri%20Dunant%20-%20Centro%2C%20Novo%20Hamburgo%20-%20RS%2C%2093315-550!5e0!3m2!1spt-PT!2sbr!4v1651531740064!5m2!1spt-PT!2sbr\" \nwidth=\"100%\" height=\"350\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
       "imagens": [
         {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/002_IB_Fachadas_Frente_003_HR-2048x1576.jpg",
-          "alt": "Texto alternativo"
+          "imagem": "1",
+          "alt": "t1"
         },
         {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/002_IB_Fachadas_Noturna_004_HR-1-2048x1365.jpg",
-          "alt": "Texto alternativo"
+          "imagem": "2",
+          "alt": "t2"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "titulo": "Titulo de teste",
+      "to": "teste",
+      "descricao": "Descrição breve de teste",
+      "cidade": "Novo Hamburgo",
+      "thumb": "teste",
+      "alt": "Texto alternativo de teste",
+      "texto": "<h1>oi</h1>",
+      "imagens": [
+        {
+          "imagem": "1",
+          "alt": "alternativo 1"
         },
         {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/003_IB_Piscina_OBS_004_HR-2048x1205.jpg",
-          "alt": "Texto alternativo"
+          "imagem": "2",
+          "alt": "alternativo 2"
         },
         {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/006_IB_Festas_004_HR-2048x1024.jpg",
-          "alt": "Texto alternativo"
-        },
-        {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/013_IB_Pet_Place_002_HR2-2048x1024.jpg",
-          "alt": "Texto alternativo"
-        },
-        {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/014_IB_Playground_002_HR2-2048x1024.jpg",
-          "alt": "Texto alternativo"
-        },
-        {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/008_IB_Int_Living_2D-Ponta_004_HR-2048x1024.jpg",
-          "alt": "Texto alternativo"
-        },
-        {
-          "imagem": "https://www.balizaconstrutora.com.br/wp-content/uploads/2021/12/011_IB_Int_Sacada_1D_006_HR-2048x1024.jpg",
-          "alt": "Texto alternativo"
+          "imagem": "3",
+          "alt": "t3"
         }
       ]
     }

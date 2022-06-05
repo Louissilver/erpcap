@@ -6,6 +6,7 @@ export interface IListagemPessoa {
   nomeCompleto: string;
   telefone: string;
   cidadeInteresse: string;
+  contatoRealizado?: boolean;
 }
 
 export interface IDetalhePessoa {

@@ -75,9 +75,9 @@ export const MenuLateral: React.FC = ({ children }) => {
             justifyContent="center"
           >
             <Avatar
-              sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
+              sx={{ height: theme.spacing(20), width: theme.spacing(20) }}
               alt="Foto do usuário"
-              src="https://github.com/Louissilver.png"
+              src="./logoazul.png"
             />
           </Box>
 

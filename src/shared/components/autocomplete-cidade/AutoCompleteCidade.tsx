@@ -13,14 +13,16 @@ type TAutoCompleteOption = {
 interface IAutoCompleteCidadeProps {
   isExternalLoading?: boolean;
   disabled?: boolean;
+  name?: string;
 }
 
 export const AutoCompleteCidade: React.FC<IAutoCompleteCidadeProps> = ({
   isExternalLoading = false,
   disabled = false,
+  name = 'cidadeInteresse',
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } =
-    useField('cidadeInteresse');
+    useField(name);
   const { debounce } = useDebounce();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -97,7 +99,7 @@ export const AutoCompleteCidade: React.FC<IAutoCompleteCidadeProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Cidade de interesse"
+          label={name == 'cidadeInteresse' ? 'Cidade de interesse' : 'Cidade'}
           error={!!error}
           helperText={error}
           fullWidth

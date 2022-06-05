@@ -49,7 +49,6 @@ export const ListagemDePessoa: React.FC = () => {
           alert(result.message);
           return;
         } else {
-          console.log(result);
           setTotalCount(result.totalCount);
           setRows(result.data);
         }
@@ -74,7 +73,7 @@ export const ListagemDePessoa: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo="Listagem de pessoas"
+      titulo="Listagem de clientes"
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca
@@ -98,6 +97,7 @@ export const ListagemDePessoa: React.FC = () => {
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome completo</TableCell>
               <TableCell>Telefone celular</TableCell>
+              <TableCell>Contato realizado</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,6 +116,7 @@ export const ListagemDePessoa: React.FC = () => {
                 </TableCell>
                 <TableCell>{row.nomeCompleto}</TableCell>
                 <TableCell>{row.telefone}</TableCell>
+                <TableCell>{row.contatoRealizado ? 'Sim' : 'Não'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -12,7 +12,7 @@ import {
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
 import * as yup from 'yup';
-import { AutoCompleteCidade } from './componentes/AutoCompleteCidade';
+import { AutoCompleteCidade } from '../../shared/components/autocomplete-cidade/AutoCompleteCidade';
 import { VDateField } from '../../shared/forms/VDateField';
 import { VCheckBox } from '../../shared/forms/VCheckBox';
 
@@ -161,6 +161,11 @@ export const DetalheDePessoas: React.FC = () => {
                 <LinearProgress />
               </Grid>
             )}
+            <Grid item>
+              <Typography variant="caption">
+                Todos os campos são obrigatórios
+              </Typography>
+            </Grid>
             <Grid item>
               <Typography variant="h6">Geral</Typography>
             </Grid>

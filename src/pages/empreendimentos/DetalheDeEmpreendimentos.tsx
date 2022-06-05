@@ -8,7 +8,10 @@ import {
 } from '@mui/material';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FerramentasDeDetalhe } from '../../shared/components';
+import {
+  AutoCompleteCidade,
+  FerramentasDeDetalhe,
+} from '../../shared/components';
 import {
   VTextField,
   VForm,
@@ -17,8 +20,16 @@ import {
   VMultiTextField,
 } from '../../shared/forms';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-import { EmpreendimentosService } from '../../shared/services/api/empreendimentos/EmpreendimentosService';
+import {
+  EmpreendimentosService,
+  IDetalheEmpreendimento,
+} from '../../shared/services/api/empreendimentos/EmpreendimentosService';
 import * as yup from 'yup';
+
+interface IImagemData {
+  imagem: string;
+  alt: string;
+}
 
 interface IFormData {
   titulo: string;
@@ -28,32 +39,55 @@ interface IFormData {
   thumb: string;
   alt: string;
   texto: string;
+  imagens: IImagemData[];
 }
 
+const urlRegExp = RegExp('(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)');
+const stringSimplesExp = RegExp('^[a-zA-Z0-9_-]+$');
+
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
-  titulo: yup.string().required().min(3),
-  to: yup.string().required().min(3),
-  descricao: yup.string().required().min(3),
-  cidade: yup.string().required().min(3),
-  thumb: yup.string().required().min(3),
-  alt: yup.string().required().min(3),
-  texto: yup.string().required().min(3),
+  titulo: yup.string().required(),
+  to: yup
+    .string()
+    .required()
+    .matches(
+      stringSimplesExp,
+      'O texto informado está em um formato inválido. Informe apenas letras, números e "_", sem espaços ou caracteres especiais.'
+    ),
+  descricao: yup.string().required(),
+  cidade: yup.string().required(),
+  thumb: yup
+    .string()
+    .required()
+    .matches(urlRegExp, 'A URL informada está em um formato inválido.'),
+  alt: yup.string().required(),
+  texto: yup.string().required(),
+  imagens: yup.array().of(
+    yup.object().shape({
+      imagem: yup
+        .string()
+        .required()
+        .matches(urlRegExp, 'A URL informada está em um formato inválido.'),
+      alt: yup.string().required(),
+    })
+  ),
 });
 
 export const DetalheDeEmpreendimentos: React.FC = () => {
-  const { id = 'nova' } = useParams<'id'>();
+  const { id = 'novo' } = useParams<'id'>();
   const navigate = useNavigate();
-
+  const [dadosRecebidos, setDadosRecebidos] =
+    useState<IDetalheEmpreendimento>();
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
-
   const [multiInput, setMultiInput] = useState([
     {
       'imagens.imagem': '',
       'imagens.alt': '',
     },
   ]);
+  const [imagens, setImagens] = useState<IImagemData[]>([]);
 
   const handleAddClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -87,17 +121,19 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
   };
 
   useEffect(() => {
-    if (id !== 'nova') {
+    if (id !== 'novo') {
       setIsLoading(true);
-      EmpreendimentosService.getById(Number(id)).then((result) => {
-        setIsLoading(false);
+      EmpreendimentosService.getById(id).then((result) => {
         if (result instanceof Error) {
           alert(result.message);
           navigate('/empreendimentos');
         } else {
           setNome(result.titulo);
+          if (result.imagens) setImagens(result.imagens);
+          setDadosRecebidos(result);
           formRef.current?.setData(result);
         }
+        setIsLoading(false);
       });
     } else {
       formRef.current?.setData({
@@ -108,9 +144,56 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
         thumb: '',
         alt: '',
         texto: '',
+        'imagens[0].imagem': '',
+        'imagens[0].alt': '',
       });
     }
   }, [id]);
+
+  useEffect(() => {
+    if (id !== 'novo') {
+      const newState = imagens.map((item) => {
+        return {
+          'imagens.imagem': item.imagem,
+          'imagens.alt': item.alt,
+        };
+      });
+      setMultiInput(newState);
+    } else {
+      setMultiInput([
+        {
+          'imagens.imagem': '',
+          'imagens.alt': '',
+        },
+      ]);
+      formRef.current?.setData({
+        titulo: '',
+        to: '',
+        descricao: '',
+        cidade: '',
+        thumb: '',
+        alt: '',
+        texto: '',
+        'imagens[0].imagem': '',
+        'imagens[0].alt': '',
+      });
+    }
+  }, [imagens]);
+
+  useEffect(() => {
+    if (id !== 'novo') {
+      if (dadosRecebidos) {
+        formRef.current?.setData(dadosRecebidos);
+      }
+    } else {
+      setMultiInput([
+        {
+          'imagens.imagem': '',
+          'imagens.alt': '',
+        },
+      ]);
+    }
+  }, [dadosRecebidos, id]);
 
   const handleSave = (dados: IFormData) => {
     formValidationSchema
@@ -118,7 +201,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
       .then((dadosValidados) => {
         setIsLoading(true);
 
-        if (id === 'nova') {
+        if (id === 'novo') {
           EmpreendimentosService.create(dadosValidados).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
@@ -133,8 +216,9 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
             }
           });
         } else {
-          EmpreendimentosService.updateById(Number(id), {
-            id: Number(id),
+          dadosValidados.imagens?.splice(multiInput.length);
+          EmpreendimentosService.updateById(id, {
+            id: id,
             ...dadosValidados,
           }).then((result) => {
             setIsLoading(false);
@@ -161,7 +245,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
       });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (confirm('Tem certeza de que quer excluir esse registro?')) {
       EmpreendimentosService.deleteById(id).then((result) => {
         if (result instanceof Error) {
@@ -179,14 +263,12 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
       titulo={id === 'novo' ? 'Novo empreendimento' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
-          textoBotaoNovo="Novo"
-          mostrarBotaoNovo={id !== 'novo'}
+          mostrarBotaoNovo={false}
           mostrarBotaoVoltar
           mostrarBotaoApagar={id !== 'novo'}
           mostrarBotaoSalvar
           mostrarBotaoSalvarEVoltar
-          aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/empreendimentos/detalhe/novo')}
+          aoClicarEmApagar={() => handleDelete(id)}
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEVoltar={saveAndClose}
           aoClicarEmVoltar={() => navigate('/empreendimentos')}
@@ -201,6 +283,11 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
                 <LinearProgress />
               </Grid>
             )}
+            <Grid item>
+              <Typography variant="caption">
+                Todos os campos são obrigatórios
+              </Typography>
+            </Grid>
             <Grid item>
               <Typography variant="h6">Informações gerais</Typography>
             </Grid>
@@ -235,12 +322,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
             </Grid>
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} md={10}>
-                <VTextField
-                  disabled={isLoading}
-                  fullWidth
-                  label="Cidade"
-                  name="cidade"
-                />
+                <AutoCompleteCidade disabled={isLoading} name="cidade" />
               </Grid>
             </Grid>
             <Grid container item direction="row" spacing={2}>
@@ -272,6 +354,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
                   label="Texto"
                   name="texto"
                   multiline
+                  minRows={10}
                   maxRows={10}
                 />
               </Grid>
@@ -287,7 +370,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
                       disabled={isLoading}
                       fullWidth
                       label="Imagem"
-                      name="imagens.imagem"
+                      name={`imagens[${index}].imagem`}
                       onChange={(e) => handleInputChange(e, index)}
                     />
                   </Grid>
@@ -296,7 +379,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
                       disabled={isLoading}
                       fullWidth
                       label="Texto alternativo"
-                      name="imagens.alt"
+                      name={`imagens[${index}].alt`}
                       onChange={(e) => handleInputChange(e, index)}
                     />
                   </Grid>
@@ -305,7 +388,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
                     <IconButton onClick={(e) => handleAddClick(e)}>
                       <Icon>add</Icon>
                     </IconButton>
-                    {index > 0 && (
+                    {index == multiInput.length - 1 && index > 0 && (
                       <>
                         <IconButton
                           onClick={(e) => handleRemoveClick(e, index)}

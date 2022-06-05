@@ -18,7 +18,6 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
 export const DetalheDeCidades: React.FC = () => {
   const { id = 'nova' } = useParams<'id'>();
   const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
@@ -132,6 +131,11 @@ export const DetalheDeCidades: React.FC = () => {
                 <LinearProgress />
               </Grid>
             )}
+            <Grid item>
+              <Typography variant="caption">
+                Todos os campos são obrigatórios
+              </Typography>
+            </Grid>
             <Grid item>
               <Typography variant="h6">Geral</Typography>
             </Grid>
