@@ -2,7 +2,7 @@ import { Environment } from '../../../environment';
 import { Api } from '../axios.config';
 
 export interface IListagemCidade {
-  id: string;
+  _id: string;
   cidade: string;
 }
 
@@ -37,9 +37,7 @@ const getAll = async (
     return new Error('Erro ao listar os registros.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao listar os registros.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -53,27 +51,23 @@ const getById = async (id: string): Promise<IListagemCidade | Error> => {
     return new Error('Erro ao consultar o registro.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao consultar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
 const create = async (
-  dados: Omit<IListagemCidade, 'id'>
+  dados: Omit<IListagemCidade, '_id'>
 ): Promise<string | Error> => {
   try {
     const { data } = await Api.post<IListagemCidade>('/cidades', dados);
 
     if (data) {
-      return data.id;
+      return data._id;
     }
     return new Error('Erro ao cadastrar o registro.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao cadastrar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -85,9 +79,7 @@ const updateById = async (
     await Api.put<IListagemCidade>(`/cidades/${id}`, dados);
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao atualizar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -96,9 +88,7 @@ const deleteById = async (id: string): Promise<void | Error> => {
     await Api.delete<IListagemCidade>(`/cidades/${id}`);
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao deletar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 

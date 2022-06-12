@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
+import moment from 'moment';
 import {
   IListagemPessoa,
   PessoasService,
@@ -63,7 +64,7 @@ export const ListagemDePessoa: React.FC = () => {
           alert(result.message);
         } else {
           setRows((oldRows) => [
-            ...oldRows.filter((oldRow) => oldRow.id !== id),
+            ...oldRows.filter((oldRow) => oldRow._id !== id),
           ]);
           alert('Registro excluído com sucesso.');
         }
@@ -97,25 +98,32 @@ export const ListagemDePessoa: React.FC = () => {
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome completo</TableCell>
               <TableCell>Telefone celular</TableCell>
+              <TableCell>Data de cadastro</TableCell>
               <TableCell>Contato realizado</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row._id}>
                 <TableCell>
                   <IconButton
                     size="small"
-                    onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}
+                    onClick={() => navigate(`/pessoas/detalhe/${row._id}`)}
                   >
                     <Icon>edit</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDelete(row._id)}
+                  >
                     <Icon>delete</Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.nomeCompleto}</TableCell>
                 <TableCell>{row.telefone}</TableCell>
+                <TableCell>
+                  {moment(row.dataCriacao).format('DD/MM/YYYY - HH:mm:ss')}
+                </TableCell>
                 <TableCell>{row.contatoRealizado ? 'Sim' : 'Não'}</TableCell>
               </TableRow>
             ))}

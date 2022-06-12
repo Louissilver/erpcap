@@ -63,7 +63,7 @@ export const ListagemDeEmpreendimento: React.FC = () => {
           alert(result.message);
         } else {
           setRows((oldRows) => [
-            ...oldRows.filter((oldRow) => oldRow.id !== id),
+            ...oldRows.filter((oldRow) => oldRow._id !== id),
           ]);
           alert('Registro excluído com sucesso.');
         }
@@ -96,25 +96,32 @@ export const ListagemDeEmpreendimento: React.FC = () => {
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome</TableCell>
+              <TableCell>Cidade</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row._id}>
                 <TableCell>
                   <IconButton
                     size="small"
                     onClick={() =>
-                      navigate(`/empreendimentos/detalhe/${row.id}`)
+                      navigate(`/empreendimentos/detalhe/${row.to}`)
                     }
                   >
                     <Icon>edit</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDelete(row._id)}
+                  >
                     <Icon>delete</Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.titulo}</TableCell>
+                <TableCell>{row.cidade}</TableCell>
+                <TableCell>{row.ativo ? 'Ativo' : 'Inativo'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

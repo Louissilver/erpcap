@@ -64,7 +64,7 @@ export const DetalheDeCidades: React.FC = () => {
           });
         } else {
           CidadesService.updateById(id, {
-            id: id,
+            _id: id,
             ...dadosValidados,
           }).then((result) => {
             setIsLoading(false);

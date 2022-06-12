@@ -25,6 +25,7 @@ import {
   IDetalheEmpreendimento,
 } from '../../shared/services/api/empreendimentos/EmpreendimentosService';
 import * as yup from 'yup';
+import { VCheckBox } from '../../shared/forms/VCheckBox';
 
 interface IImagemData {
   imagem: string;
@@ -32,6 +33,7 @@ interface IImagemData {
 }
 
 interface IFormData {
+  ativo?: boolean;
   titulo: string;
   to: string;
   descricao: string;
@@ -46,6 +48,7 @@ const urlRegExp = RegExp('(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)');
 const stringSimplesExp = RegExp('^[a-zA-Z0-9_-]+$');
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
+  ativo: yup.boolean(),
   titulo: yup.string().required(),
   to: yup
     .string()
@@ -196,11 +199,11 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
   }, [dadosRecebidos, id]);
 
   const handleSave = (dados: IFormData) => {
+    dados.imagens?.splice(multiInput.length);
     formValidationSchema
       .validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
         setIsLoading(true);
-
         if (id === 'novo') {
           EmpreendimentosService.create(dadosValidados).then((result) => {
             setIsLoading(false);
@@ -216,9 +219,8 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
             }
           });
         } else {
-          dadosValidados.imagens?.splice(multiInput.length);
           EmpreendimentosService.updateById(id, {
-            id: id,
+            _id: id,
             ...dadosValidados,
           }).then((result) => {
             setIsLoading(false);
@@ -290,6 +292,11 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
             </Grid>
             <Grid item>
               <Typography variant="h6">Informações gerais</Typography>
+            </Grid>
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} md={5}>
+                <VCheckBox name="ativo" label="Ativo" />
+              </Grid>
             </Grid>
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} md={6}>

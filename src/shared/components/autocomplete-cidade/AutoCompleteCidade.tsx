@@ -54,7 +54,7 @@ export const AutoCompleteCidade: React.FC<IAutoCompleteCidadeProps> = ({
         } else {
           setOpcoes(
             result.data.map((cidade) => ({
-              id: cidade.id,
+              id: cidade._id,
               label: cidade.cidade,
             }))
           );

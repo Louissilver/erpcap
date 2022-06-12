@@ -63,7 +63,7 @@ export const ListagemDeCidade: React.FC = () => {
           alert(result.message);
         } else {
           setRows((oldRows) => [
-            ...oldRows.filter((oldRow) => oldRow.id !== id),
+            ...oldRows.filter((oldRow) => oldRow._id !== id),
           ]);
           alert('Registro excluído com sucesso.');
         }
@@ -100,15 +100,18 @@ export const ListagemDeCidade: React.FC = () => {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row._id}>
                 <TableCell>
                   <IconButton
                     size="small"
-                    onClick={() => navigate(`/cidades/detalhe/${row.id}`)}
+                    onClick={() => navigate(`/cidades/detalhe/${row._id}`)}
                   >
                     <Icon>edit</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDelete(row._id)}
+                  >
                     <Icon>delete</Icon>
                   </IconButton>
                 </TableCell>

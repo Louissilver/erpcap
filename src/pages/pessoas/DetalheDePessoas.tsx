@@ -94,7 +94,7 @@ export const DetalheDePessoas: React.FC = () => {
           });
         } else {
           PessoasService.updateById(id, {
-            id: id,
+            _id: id,
             ...dadosValidados,
           }).then((result) => {
             setIsLoading(false);

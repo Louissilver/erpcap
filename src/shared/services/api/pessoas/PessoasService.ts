@@ -2,15 +2,16 @@ import { Environment } from '../../../environment';
 import { Api } from '../axios.config';
 
 export interface IListagemPessoa {
-  id: string;
+  _id: string;
   nomeCompleto: string;
   telefone: string;
   cidadeInteresse: string;
+  dataCriacao?: Date;
   contatoRealizado?: boolean;
 }
 
 export interface IDetalhePessoa {
-  id: string;
+  _id: string;
   nomeCompleto: string;
   telefone: string;
   cidadeInteresse: string;
@@ -43,9 +44,7 @@ const getAll = async (
     return new Error('Erro ao listar os registros.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao listar os registros.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -59,27 +58,23 @@ const getById = async (id: string): Promise<IDetalhePessoa | Error> => {
     return new Error('Erro ao consultar o registro.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao consultar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
 const create = async (
-  dados: Omit<IDetalhePessoa, 'id'>
+  dados: Omit<IDetalhePessoa, '_id'>
 ): Promise<string | Error> => {
   try {
     const { data } = await Api.post<IDetalhePessoa>('/clientes', dados);
 
     if (data) {
-      return data.id;
+      return data._id;
     }
     return new Error('Erro ao cadastrar o registro.');
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao cadastrar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -91,9 +86,7 @@ const updateById = async (
     await Api.put<IDetalhePessoa>(`/clientes/${id}`, dados);
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao atualizar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
@@ -102,9 +95,7 @@ const deleteById = async (id: string): Promise<void | Error> => {
     await Api.delete<IDetalhePessoa>(`/clientes/${id}`);
   } catch (error) {
     console.error(error);
-    return new Error(
-      (error as { message: string }).message || 'Erro ao deletar o registro.'
-    );
+    return new Error((error as string) || 'Erro ao consultar o registro.');
   }
 };
 
