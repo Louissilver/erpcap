@@ -84,7 +84,7 @@ const create = async (
     );
 
     if (data) {
-      return data._id;
+      return data.to;
     }
     return new Error('Erro ao cadastrar o registro.');
   } catch (error) {

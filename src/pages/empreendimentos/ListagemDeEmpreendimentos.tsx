@@ -63,7 +63,7 @@ export const ListagemDeEmpreendimento: React.FC = () => {
           alert(result.message);
         } else {
           setRows((oldRows) => [
-            ...oldRows.filter((oldRow) => oldRow._id !== id),
+            ...oldRows.filter((oldRow) => oldRow.to !== id),
           ]);
           alert('Registro excluído com sucesso.');
         }
@@ -112,10 +112,7 @@ export const ListagemDeEmpreendimento: React.FC = () => {
                   >
                     <Icon>edit</Icon>
                   </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDelete(row._id)}
-                  >
+                  <IconButton size="small" onClick={() => handleDelete(row.to)}>
                     <Icon>delete</Icon>
                   </IconButton>
                 </TableCell>
