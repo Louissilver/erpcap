@@ -83,6 +83,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
     useState<IDetalheEmpreendimento>();
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
+  const [idConsulta, setIdConsulta] = useState('');
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
   const [multiInput, setMultiInput] = useState([
     {
@@ -132,6 +133,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
           navigate('/empreendimentos');
         } else {
           setNome(result.titulo);
+          setIdConsulta(result._id);
           if (result.imagens) setImagens(result.imagens);
           setDadosRecebidos(result);
           formRef.current?.setData(result);
@@ -220,7 +222,7 @@ export const DetalheDeEmpreendimentos: React.FC = () => {
           });
         } else {
           EmpreendimentosService.updateById(id, {
-            _id: id,
+            _id: idConsulta,
             ...dadosValidados,
           }).then((result) => {
             setIsLoading(false);
