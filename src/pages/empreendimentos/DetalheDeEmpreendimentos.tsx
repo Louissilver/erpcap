@@ -44,7 +44,9 @@ interface IFormData {
   imagens: IImagemData[];
 }
 
-const urlRegExp = RegExp('(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)');
+const urlRegExp = RegExp(
+  '(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png|jpeg)'
+);
 const stringSimplesExp = RegExp('^[a-zA-Z0-9_-]+$');
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
