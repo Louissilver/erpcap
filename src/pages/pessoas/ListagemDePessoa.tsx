@@ -137,6 +137,7 @@ export const ListagemDePessoa: React.FC = () => {
               <DesktopDatePicker
                 label="Data inicial"
                 inputFormat="DD/MM/yyyy"
+                mask="__/__/____"
                 value={dataInicial}
                 onChange={handleChangeDataInicial}
                 renderInput={(params) => (
@@ -150,6 +151,7 @@ export const ListagemDePessoa: React.FC = () => {
               <DesktopDatePicker
                 label="Data final"
                 inputFormat="DD/MM/yyyy"
+                mask="__/__/____"
                 value={dataFinal}
                 onChange={handleChangeDataFinal}
                 renderInput={(params) => (
