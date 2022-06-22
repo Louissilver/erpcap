@@ -70,12 +70,20 @@ export const ListagemDePessoa: React.FC = () => {
 
   const handleChangeDataInicial = (newValue: Date | null) => {
     setDadosData([]);
-    setDataInicial(moment(newValue).format('YYYY-MM-DD'));
+    if (newValue == null) {
+      setDataInicial('');
+    } else {
+      setDataInicial(moment(newValue).format('YYYY-MM-DD'));
+    }
   };
 
   const handleChangeDataFinal = (newValue: Date | null) => {
     setDadosData([]);
-    setDataFinal(moment(newValue).format('YYYY-MM-DD'));
+    if (newValue == null) {
+      setDataInicial('');
+    } else {
+      setDataInicial(moment(newValue).format('YYYY-MM-DD'));
+    }
   };
 
   const carregarDadosData = async () => {
