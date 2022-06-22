@@ -80,9 +80,9 @@ export const ListagemDePessoa: React.FC = () => {
   const handleChangeDataFinal = (newValue: Date | null) => {
     setDadosData([]);
     if (newValue == null) {
-      setDataInicial('');
+      setDataFinal('');
     } else {
-      setDataInicial(moment(newValue).format('YYYY-MM-DD'));
+      setDataFinal(moment(newValue).format('YYYY-MM-DD'));
     }
   };
 
