@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import moment from 'moment';
 import {
   IListagemPessoa,
@@ -9,6 +12,7 @@ import {
 } from '../../shared/services/api/pessoas/PessoasService';
 import { useDebounce } from '../../shared/hooks';
 import {
+  Button,
   Icon,
   IconButton,
   LinearProgress,
@@ -21,17 +25,24 @@ import {
   TableFooter,
   TableHead,
   TableRow,
+  TextField,
+  useTheme,
 } from '@mui/material';
 import { Environment } from '../../shared/environment';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 export const ListagemDePessoa: React.FC = () => {
+  const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce(1000);
   const navigate = useNavigate();
 
+  const [dadosData, setDadosData] = useState<IListagemPessoa[]>([]);
   const [rows, setRows] = useState<IListagemPessoa[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [dataInicial, setDataInicial] = useState('');
+  const [dataFinal, setDataFinal] = useState('');
 
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
@@ -56,6 +67,34 @@ export const ListagemDePessoa: React.FC = () => {
       });
     });
   }, [busca, pagina]);
+
+  const handleChangeDataInicial = (newValue: Date | null) => {
+    setDadosData([]);
+    setDataInicial(moment(newValue).format('YYYY-MM-DD'));
+  };
+
+  const handleChangeDataFinal = (newValue: Date | null) => {
+    setDadosData([]);
+    setDataFinal(moment(newValue).format('YYYY-MM-DD'));
+  };
+
+  const carregarDadosData = async () => {
+    await PessoasService.getAllByDate(dataInicial, dataFinal).then((result) => {
+      if (result instanceof Error) {
+        alert(result.message);
+        return;
+      } else {
+        if (result.data.length == 0) {
+          alert('Não foram encontrados clientes entre as datas informadas.');
+        } else {
+          alert(
+            `Foram encontrados ${result.totalCount} clientes entre as datas informadas.`
+          );
+          setDadosData(result.data);
+        }
+      }
+    });
+  };
 
   const handleDelete = (id: string) => {
     if (confirm('Tem certeza de que quer excluir esse registro?')) {
@@ -87,6 +126,66 @@ export const ListagemDePessoa: React.FC = () => {
         />
       }
     >
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ m: 1, width: 'auto' }}
+      >
+        <TableRow>
+          <TableCell>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DesktopDatePicker
+                label="Data inicial"
+                inputFormat="DD/MM/yyyy"
+                value={dataInicial}
+                onChange={handleChangeDataInicial}
+                renderInput={(params) => (
+                  <TextField {...params} error={false} />
+                )}
+              />
+            </LocalizationProvider>
+          </TableCell>
+          <TableCell>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DesktopDatePicker
+                label="Data final"
+                inputFormat="DD/MM/yyyy"
+                value={dataFinal}
+                onChange={handleChangeDataFinal}
+                renderInput={(params) => (
+                  <TextField {...params} error={false} />
+                )}
+              />
+            </LocalizationProvider>
+          </TableCell>
+          <TableCell>
+            {dadosData.length == 0 && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={carregarDadosData}
+              >
+                Buscar dados
+              </Button>
+            )}
+            {dadosData.length > 0 && (
+              <Button variant="contained" color="primary">
+                <CSVLink
+                  asyncOnClick={true}
+                  style={{
+                    textDecoration: 'none',
+                    color: theme.palette.primary.contrastText,
+                  }}
+                  data={dadosData}
+                  filename="Clientes.csv"
+                >
+                  Exportar CSV
+                </CSVLink>
+              </Button>
+            )}
+          </TableCell>
+        </TableRow>
+      </TableContainer>
       <TableContainer
         component={Paper}
         variant="outlined"

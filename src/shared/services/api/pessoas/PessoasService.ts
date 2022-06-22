@@ -48,6 +48,29 @@ const getAll = async (
   }
 };
 
+const getAllByDate = async (
+  dataInicial: string,
+  dataFinal: string
+): Promise<TPessoasComTotalCount | Error> => {
+  try {
+    const urlRelativa = `/clientes/data?dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
+    const { data, headers } = await Api.get(urlRelativa);
+
+    if (data) {
+      return {
+        data,
+        totalCount: Number(
+          headers['x-total-count'] || Environment.LIMITE_DE_LINHAS
+        ),
+      };
+    }
+    return new Error('Erro ao listar os registros.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as string) || 'Erro ao consultar o registro.');
+  }
+};
+
 const getById = async (id: string): Promise<IDetalhePessoa | Error> => {
   try {
     const { data } = await Api.get(`/clientes/${id}`);
@@ -101,6 +124,7 @@ const deleteById = async (id: string): Promise<void | Error> => {
 
 export const PessoasService = {
   getAll,
+  getAllByDate,
   getById,
   create,
   updateById,
