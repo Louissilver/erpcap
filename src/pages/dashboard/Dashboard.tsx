@@ -65,7 +65,7 @@ export const Dashboard: React.FC = () => {
   }, [totalCountPessoas]);
 
   return (
-    <LayoutBaseDePagina titulo="Corretores de Alta Performance">
+    <LayoutBaseDePagina titulo="Dashboard">
       <Grid container direction="row">
         <Grid item xs={12} md={4}>
           <Card component={Paper} sx={{ margin: 4 }}>
