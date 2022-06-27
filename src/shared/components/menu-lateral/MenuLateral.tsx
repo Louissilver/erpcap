@@ -77,7 +77,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             <Avatar
               sx={{ height: theme.spacing(20), width: theme.spacing(20) }}
               alt="Foto do usuário"
-              src="./logoazul.png"
+              src="./logolaranja.png"
             />
           </Box>
 

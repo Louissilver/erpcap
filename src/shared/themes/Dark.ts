@@ -6,8 +6,8 @@ export const DarkTheme = createTheme({
     mode: 'dark',
     primary: {
       main: indigo[400],
-      dark: indigo[700],
-      light: indigo[500],
+      dark: '#00263E',
+      light: '#00263E',
       contrastText: '#ffffff',
     },
     secondary: {
@@ -23,7 +23,7 @@ export const DarkTheme = createTheme({
   },
   typography: {
     allVariants: {
-      color: indigo[200],
+      color: indigo[400],
     },
   },
 });
