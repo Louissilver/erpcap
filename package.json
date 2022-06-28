@@ -70,6 +70,12 @@
       "build/**/*",
       "node_modules/**/*"
     ],
+    "win": {
+      "icon": "./logolaranja.png"
+    },
+    "mac": {
+      "icon": "./logolaranja.png"
+    },
     "publish": {
       "provider": "github",
       "owner": "cinarrtolga"

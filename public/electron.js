@@ -22,6 +22,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
     },
+    icon: __dirname + '/logolaranja.png',
   });
   //win.loadURL(startUrl);
   win.loadURL('file:///' + __dirname + '/index.html');
