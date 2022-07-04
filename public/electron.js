@@ -19,10 +19,10 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 800,
+    icon: "icon.png",
     webPreferences: {
       nodeIntegration: true,
     },
-    icon: __dirname + '/logolaranja.png',
   });
   //win.loadURL(startUrl);
   win.loadURL('file:///' + __dirname + '/index.html');
