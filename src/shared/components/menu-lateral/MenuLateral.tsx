@@ -101,9 +101,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             <List component="nav">
               <ListItemButton onClick={toggleTheme}>
                 <ListItemIcon>
-                  <Icon>dark_mode</Icon>
                 </ListItemIcon>
-                <ListItemText primary="Alternar tema" />
               </ListItemButton>
             </List>
           </Box>

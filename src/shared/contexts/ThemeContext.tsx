@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { ThemeProvider } from '@mui/material';
-import { LightTheme, DarkTheme } from '../themes';
+import { DarkTheme } from '../themes';
 import { Box } from '@mui/system';
 
 interface IThemeContextData {
